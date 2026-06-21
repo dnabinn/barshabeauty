@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Barsha Beauty Salon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../js/config.js"></script>
+  <style>
+    body { background: var(--cream); }
+    .admin-wrap { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+    .admin-title { font-family: var(--font-display); font-size: 2rem; color: var(--text-dark); }
+    .login-box { max-width: 360px; margin: 8rem auto; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; }
+    .login-box h2 { font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 1.5rem; text-align: center; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; }
+    .stat-card .num { font-family: var(--font-display); font-size: 2rem; color: var(--black); }
+    .stat-card .label { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.3rem; }
+    .filters { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .filters select, .filters input { padding: 0.6rem 0.9rem; border: 1.5px solid var(--border); border-radius: var(--radius); font-family: var(--font-body); font-size: 0.82rem; }
+    table { width: 100%; border-collapse: collapse; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    th, td { padding: 0.85rem 1rem; text-align: left; font-size: 0.82rem; border-bottom: 1px solid var(--border); }
+    th { background: var(--black); color: var(--gold); font-weight: 500; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    tr:last-child td { border-bottom: none; }
+    .badge { padding: 0.25rem 0.65rem; border-radius: 20px; font-size: 0.68rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+    .badge-confirmed { background: #E6F4EA; color: #1E7D34; }
+    .badge-pending { background: #FFF4E5; color: #B8860B; }
+    .badge-cancelled { background: #FCE8E6; color: #B3261E; }
+    .status-select { font-size: 0.75rem; padding: 0.3rem 0.5rem; border-radius: var(--radius); border: 1px solid var(--border); }
+    @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } table { font-size: 0.75rem; } th, td { padding: 0.6rem 0.6rem; } }
+  </style>
+</head>
+<body>
+
+  <div id="loginView" class="login-box">
+    <h2>Barsha Admin</h2>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="adminPw" class="form-input">
+    </div>
+    <button class="btn-primary btn-block" id="loginBtn">Entrar</button>
+    <p id="loginErr" style="color:#B3261E;font-size:0.8rem;margin-top:0.75rem;text-align:center"></p>
+  </div>
+
+  <div id="dashView" class="admin-wrap" style="display:none">
+    <div class="admin-header">
+      <h1 class="admin-title">Reservas — Barsha Beauty Salon</h1>
+      <button class="btn-outline btn-sm" id="logoutBtn">Sair</button>
+    </div>
+
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <div class="filters">
+      <select id="statusFilter">
+        <option value="">Todos os estados</option>
+        <option value="confirmed">Confirmadas</option>
+        <option value="pending">Pendentes</option>
+        <option value="cancelled">Canceladas</option>
+      </select>
+      <input type="date" id="fromFilter" placeholder="De">
+      <input type="date" id="toFilter" placeholder="Até">
+      <button class="btn-outline btn-sm" id="refreshBtn">Atualizar</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Ref</th><th>Cliente</th><th>Serviço</th><th>Data</th><th>Hora</th><th>Preço</th><th>Estado</th></tr>
+      </thead>
+      <tbody id="bookingsBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const base = window.BACKEND_URL || '';
+    let adminPassword = sessionStorage.getItem('barsha-admin-pw') || '';
+
+    function authHeaders() { return { 'x-admin-password': adminPassword, 'Content-Type': 'application/json' }; }
+
+    async function login() {
+      adminPassword = document.getElementById('adminPw').value;
+      const res = await fetch(`${base}/api/admin/bookings`, { headers: authHeaders() });
+      if (res.status === 401) {
+        document.getElementById('loginErr').textContent = 'Password incorreta.';
+        return;
+      }
+      sessionStorage.setItem('barsha-admin-pw', adminPassword);
+      document.getElementById('loginView').style.display = 'none';
+      document.getElementById('dashView').style.display = 'block';
+      loadStats();
+      loadBookings();
+    }
+    document.getElementById('loginBtn').addEventListener('click', login);
+    document.getElementById('adminPw').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      sessionStorage.removeItem('barsha-admin-pw');
+      location.reload();
+    });
+
+    async function loadStats() {
+      try {
+        const res = await fetch(`${base}/api/admin/stats`, { headers: authHeaders() });
+        const s = await res.json();
+        document.getElementById('statsGrid').innerHTML = `
+          <div class="stat-card"><div class="num">${s.total || 0}</div><div class="label">Total de Reservas</div></div>
+          <div class="stat-card"><div class="num">${s.confirmed || 0}</div><div class="label">Confirmadas</div></div>
+          <div class="stat-card"><div class="num">€${s.revenue || 0}</div><div class="label">Receita</div></div>
+          <div class="stat-card"><div class="num">${s.today || 0}</div><div class="label">Hoje</div></div>`;
+      } catch (e) {
+        document.getElementById('statsGrid').innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Não foi possível carregar estatísticas — verifique se o backend está configurado.</p>';
+      }
+    }
+
+    async function loadBookings() {
+      const status = document.getElementById('statusFilter').value;
+      const from = document.getElementById('fromFilter').value;
+      const to = document.getElementById('toFilter').value;
+      const params = new URLSearchParams();
+      if (status) params.set('status', status);
+      if (from) params.set('from', from);
+      if (to) params.set('to', to);
+      try {
+        const res = await fetch(`${base}/api/admin/bookings?${params}`, { headers: authHeaders() });
+        const rows = await res.json();
+        document.getElementById('bookingsBody').innerHTML = (rows || []).map(b => `
+          <tr>
+            <td>${b.ref}</td>
+            <td>${b.name}<br><span style="color:var(--text-muted);font-size:0.72rem">${b.email}</span></td>
+            <td>${b.service} (${b.duration}min)</td>
+            <td>${b.date}</td>
+            <td>${b.time}</td>
+            <td>€${b.price}</td>
+            <td>
+              <select class="status-select" data-ref="${b.ref}">
+                <option value="confirmed" ${b.status === 'confirmed' ? 'selected' : ''}>Confirmada</option>
+                <option value="pending" ${b.status === 'pending' ? 'selected' : ''}>Pendente</option>
+                <option value="cancelled" ${b.status === 'cancelled' ? 'selected' : ''}>Cancelada</option>
+              </select>
+            </td>
+          </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--text-muted)">Sem reservas.</td></tr>';
+
+        document.querySelectorAll('.status-select').forEach(sel => {
+          sel.addEventListener('change', async () => {
+            await fetch(`${base}/api/admin/bookings/${sel.dataset.ref}`, {
+              method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ status: sel.value })
+            });
+            loadStats();
+          });
+        });
+      } catch (e) {
+        document.getElementById('bookingsBody').innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted)">Não foi possível ligar ao backend.</td></tr>';
+      }
+    }
+
+    document.getElementById('refreshBtn').addEventListener('click', () => { loadStats(); loadBookings(); });
+
+    if (adminPassword) {
+      document.getElementById('loginView').style.display = 'none';
+      document.getElementById('dashView').style.display = 'block';
+      loadStats();
+      loadBookings();
+    }
+  </script>
+</body>
+</html>

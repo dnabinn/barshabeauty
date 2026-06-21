@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre Nós — Barsha Beauty Salon</title>
+  <meta name="description" content="Conheça o Barsha Beauty Salon, o espaço de beleza e bem-estar no coração de Lisboa.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+
+  <nav class="nav nav--solid" id="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__logo"><span class="nav__logo-icon">✦</span><span class="nav__logo-text">Barsha Beauty Salon</span></a>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="../index.html" class="nav__link" data-pt="Início" data-en="Home">Início</a></li>
+        <li><a href="servicos.html" class="nav__link" data-pt="Serviços" data-en="Services">Serviços</a></li>
+        <li><a href="sobre.html" class="nav__link active" data-pt="Sobre" data-en="About">Sobre</a></li>
+        <li><a href="contacto.html" class="nav__link" data-pt="Contacto" data-en="Contact">Contacto</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+        <a href="reservar.html" class="btn-book" data-pt="Reservar" data-en="Book Now">Reservar</a>
+        <button class="nav__burger" id="burger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="page-hero__inner">
+      <p class="section-eyebrow" data-pt="A Nossa História" data-en="Our Story">A Nossa História</p>
+      <h1 class="page-hero__title" data-pt="Sobre o Barsha<br>Beauty Salon" data-en="About Barsha<br>Beauty Salon">Sobre o Barsha<br>Beauty Salon</h1>
+    </div>
+  </section>
+
+  <section class="about-strip">
+    <div class="about-strip__inner">
+      <div class="about-strip__text reveal">
+        <p class="section-eyebrow" data-pt="Quem Somos" data-en="Who We Are">Quem Somos</p>
+        <h2 class="section-title" data-pt="Beleza, cuidado<br>e profissionalismo" data-en="Beauty, care<br>and professionalism">Beleza, cuidado<br>e profissionalismo</h2>
+        <p class="about-strip__body" data-pt="No Barsha Beauty Salon acreditamos que cuidar de si deve ser uma experiência simples e prazerosa. Reunimos massagem terapêutica, estética facial, depilação, unhas e pestanas num único espaço em Lisboa, com profissionais dedicados e atenção ao detalhe em cada serviço." data-en="At Barsha Beauty Salon we believe that taking care of yourself should be simple and enjoyable. We bring together therapeutic massage, facial treatments, waxing, nails and lashes in one space in Lisbon, with dedicated professionals and attention to detail in every service.">No Barsha Beauty Salon acreditamos que cuidar de si deve ser uma experiência simples e prazerosa. Reunimos massagem terapêutica, estética facial, depilação, unhas e pestanas num único espaço em Lisboa, com profissionais dedicados e atenção ao detalhe em cada serviço.</p>
+        <p class="about-strip__body" data-pt="Quer seja para relaxar após uma semana intensa, preparar-se para uma ocasião especial ou simplesmente cuidar de si com regularidade, estamos aqui para tornar essa experiência memorável." data-en="Whether it's to unwind after a busy week, get ready for a special occasion, or simply care for yourself regularly, we're here to make that experience memorable.">Quer seja para relaxar após uma semana intensa, preparar-se para uma ocasião especial ou simplesmente cuidar de si com regularidade, estamos aqui para tornar essa experiência memorável.</p>
+      </div>
+      <div class="about-strip__visual reveal">
+        <div class="about-strip__img-wrap">
+          <div class="about-strip__img about-strip__img--main"><img src="../images/extra/salon-interior-2.jpg" alt="Barsha Beauty Salon" loading="lazy"></div>
+          <div class="about-strip__img about-strip__img--accent"><img src="../images/extra/salon-interior-3.jpg" alt="Salon detail" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow" data-pt="O Nosso Espaço" data-en="Our Space">O Nosso Espaço</p>
+        <h2 class="section-title" data-pt="Conheça o salão" data-en="Take a look inside">Conheça o salão</h2>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item reveal"><img src="../images/extra/salon-interior-1.jpg" alt="Barsha Beauty Salon" loading="lazy"></div>
+        <div class="gallery-item reveal"><img src="../images/extra/salon-interior-2.jpg" alt="Barsha Beauty Salon" loading="lazy"></div>
+        <div class="gallery-item reveal"><img src="../images/extra/salon-interior-3.jpg" alt="Barsha Beauty Salon" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="cta-banner__inner reveal">
+      <p class="section-eyebrow" data-pt="Venha Conhecer-nos" data-en="Come Visit Us">Venha Conhecer-nos</p>
+      <h2 class="cta-banner__title" data-pt="Reserve a sua sessão<br>hoje mesmo." data-en="Book your session<br>today.">Reserve a sua sessão<br>hoje mesmo.</h2>
+      <div class="cta-banner__btns">
+        <a href="reservar.html" class="btn-gold" data-pt="Reservar Sessão" data-en="Book a Session">Reservar Sessão</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <div class="footer__logo"><span class="nav__logo-icon">✦</span><span>Barsha Beauty Salon</span></div>
+        <p class="footer__tagline" data-pt="Beleza & Bem-Estar em Lisboa" data-en="Beauty & Wellness in Lisbon">Beleza & Bem-Estar em Lisboa</p>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__col-title" data-pt="Navegação" data-en="Navigation">Navegação</h4>
+        <ul class="footer__links">
+          <li><a href="../index.html" data-pt="Início" data-en="Home">Início</a></li>
+          <li><a href="servicos.html" data-pt="Serviços" data-en="Services">Serviços</a></li>
+          <li><a href="sobre.html" data-pt="Sobre Nós" data-en="About Us">Sobre Nós</a></li>
+          <li><a href="contacto.html" data-pt="Contacto" data-en="Contact">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__col-title" data-pt="Visite-nos" data-en="Visit Us">Visite-nos</h4>
+        <p class="footer__addr">Rua Arco do Marquês de Alegrete, loja 4 D<br>1100-034 Lisboa</p>
+        <a href="tel:+351920522330" class="footer__phone">+351 920 522 330</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p data-pt="© 2026 Barsha Beauty Salon. Todos os direitos reservados." data-en="© 2026 Barsha Beauty Salon. All rights reserved.">© 2026 Barsha Beauty Salon. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

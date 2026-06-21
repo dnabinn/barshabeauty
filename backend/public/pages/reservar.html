@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservar — Barsha Beauty Salon</title>
+<meta name="description" content="Reserve a sua sessão online no Barsha Beauty Salon — massagens, estética, unhas e pestanas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/main.css">
+<script src="../js/config.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+  body { background: var(--cream); }
+
+  .booking-page {
+    min-height: 100vh;
+    padding-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .booking-main { padding: 3rem 3rem 4rem; border-right: 1px solid var(--border); min-height: calc(100vh - 80px); }
+  .booking-sidebar { padding: 3rem 2rem; position: sticky; top: 80px; height: calc(100vh - 80px); overflow-y: auto; background: var(--white); }
+
+  .steps-bar { display: flex; align-items: center; gap: 0; margin-bottom: 3rem; }
+  .step-dot { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+  .step-dot__circle { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 500; color: var(--text-muted); background: var(--white); transition: var(--transition); flex-shrink: 0; }
+  .step-dot__label { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); transition: var(--transition); white-space: nowrap; }
+  .step-dot.active .step-dot__circle { background: var(--black); border-color: var(--black); color: var(--gold); }
+  .step-dot.active .step-dot__label { color: var(--text-dark); font-weight: 500; }
+  .step-dot.done .step-dot__circle { background: var(--gold); border-color: var(--gold); color: var(--black); }
+  .step-dot.done .step-dot__label { color: var(--text-muted); }
+  .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 0.6rem; min-width: 16px; }
+  .step-line.done { background: var(--gold); opacity: 0.5; }
+
+  .step-panel { display: none; }
+  .step-panel.active { display: block; }
+  .step-title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 400; color: var(--text-dark); margin-bottom: 0.3rem; line-height: 1.2; }
+  .step-sub { font-size: 0.82rem; font-weight: 300; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.7; }
+
+  /* Category tabs */
+  .cat-tabs { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
+  .cat-tab { padding: 0.55rem 1.1rem; border: 1.5px solid var(--border); border-radius: 30px; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); cursor: pointer; transition: var(--transition); background: var(--white); }
+  .cat-tab:hover { border-color: var(--gold); color: var(--gold); }
+  .cat-tab.active { background: var(--black); border-color: var(--black); color: var(--gold); }
+
+  /* Service pick list */
+  .svc-pick-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .svc-pick-row { background: var(--white); display: flex; flex-direction: column; cursor: pointer; transition: var(--transition); }
+  .svc-pick-row__top { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.5rem; gap: 1rem; }
+  .svc-pick-row:hover { background: var(--cream); }
+  .svc-pick-row.selected { background: var(--gold-pale); border-left: 3px solid var(--gold); }
+  .svc-pick-row__name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 500; color: var(--text-dark); margin-bottom: 0.15rem; }
+  .svc-pick-row__tag { font-size: 0.72rem; font-weight: 300; color: var(--text-muted); }
+  .svc-pick-row__price { font-family: var(--font-display); font-size: 0.95rem; font-weight: 500; color: var(--black); white-space: nowrap; flex-shrink: 0; }
+  .svc-pick-row__radio { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .svc-pick-row.selected .svc-pick-row__radio { border-color: var(--gold); background: var(--gold); }
+  .svc-pick-row.selected .svc-pick-row__radio::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--black); }
+
+  .duration-row { display: none; padding: 0 1.5rem 1.1rem; gap: 0.6rem; flex-wrap: wrap; }
+  .svc-pick-row.selected .duration-row { display: flex; }
+  .dur-btn { padding: 0.5rem 1rem; border: 1.5px solid var(--border); border-radius: var(--radius); font-size: 0.78rem; color: var(--text-mid); background: var(--white); cursor: pointer; transition: var(--transition); }
+  .dur-btn:hover { border-color: var(--gold); }
+  .dur-btn.selected { background: var(--black); border-color: var(--black); color: var(--gold); }
+
+  /* Calendar / time */
+  .date-input-wrap { margin-bottom: 2rem; }
+  .slots-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; }
+  .slot-btn { padding: 0.7rem 0.5rem; border: 1.5px solid var(--border); border-radius: var(--radius); font-size: 0.82rem; color: var(--text-mid); background: var(--white); cursor: pointer; text-align: center; transition: var(--transition); }
+  .slot-btn:hover:not(.taken) { border-color: var(--gold); }
+  .slot-btn.selected { background: var(--black); border-color: var(--black); color: var(--gold); }
+  .slot-btn.taken { opacity: 0.3; pointer-events: none; text-decoration: line-through; }
+  .slots-empty { font-size: 0.85rem; color: var(--text-muted); padding: 1rem 0; }
+
+  /* Payment */
+  .pay-methods { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .pay-method { flex: 1; padding: 1rem; border: 1.5px solid var(--border); border-radius: var(--radius); text-align: center; font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: var(--transition); }
+  .pay-method.selected { border-color: var(--gold); background: var(--gold-pale); }
+  #cardElement { padding: 0.95rem 1rem; border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--white); }
+
+  .nav-buttons { display: flex; justify-content: space-between; margin-top: 2.5rem; }
+
+  /* Sidebar summary */
+  .summary-title { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+  .summary-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+  .summary-row__label { color: var(--text-muted); }
+  .summary-row__value { color: var(--text-dark); font-weight: 500; text-align: right; }
+  .summary-total { display: flex; justify-content: space-between; padding-top: 1.25rem; font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--black); }
+
+  .confirm-box { text-align: center; padding: 2rem 0; }
+  .confirm-box__icon { font-size: 3rem; color: var(--gold); margin-bottom: 1rem; }
+  .confirm-box__ref { font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; letter-spacing: 0.08em; color: var(--black); margin: 0.5rem 0 1.5rem; }
+
+  @media (max-width: 900px) {
+    .booking-page { grid-template-columns: 1fr; }
+    .booking-main { border-right: none; padding: 2rem 1.5rem 3rem; }
+    .booking-sidebar { position: static; height: auto; border-top: 1px solid var(--border); }
+    .slots-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav nav--solid" id="nav">
+  <div class="nav__inner">
+    <a href="../index.html" class="nav__logo"><span class="nav__logo-icon">✦</span><span class="nav__logo-text">Barsha Beauty Salon</span></a>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="../index.html" class="nav__link" data-pt="Início" data-en="Home">Início</a></li>
+      <li><a href="servicos.html" class="nav__link" data-pt="Serviços" data-en="Services">Serviços</a></li>
+      <li><a href="sobre.html" class="nav__link" data-pt="Sobre" data-en="About">Sobre</a></li>
+      <li><a href="contacto.html" class="nav__link" data-pt="Contacto" data-en="Contact">Contacto</a></li>
+    </ul>
+    <div class="nav__actions">
+      <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+      <a href="reservar.html" class="btn-book active" data-pt="Reservar" data-en="Book Now">Reservar</a>
+      <button class="nav__burger" id="burger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="booking-page">
+  <div class="booking-main">
+    <div class="steps-bar" id="stepsBar"></div>
+
+    <!-- STEP 1: SERVICE -->
+    <div class="step-panel active" data-step="1">
+      <h2 class="step-title" data-pt="Escolha o serviço" data-en="Choose your service">Escolha o serviço</h2>
+      <p class="step-sub" data-pt="Selecione uma categoria e o serviço desejado." data-en="Select a category and the service you'd like.">Selecione uma categoria e o serviço desejado.</p>
+      <div class="cat-tabs" id="catTabs"></div>
+      <div class="svc-pick-list" id="svcList"></div>
+      <div class="nav-buttons">
+        <span></span>
+        <button class="btn-primary" id="toStep2" disabled data-pt="Continuar" data-en="Continue">Continuar</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: DATE & TIME -->
+    <div class="step-panel" data-step="2">
+      <h2 class="step-title" data-pt="Escolha data e hora" data-en="Choose date & time">Escolha data e hora</h2>
+      <p class="step-sub" data-pt="Aberto Seg–Sáb 10h–20h · Dom 11h–19h." data-en="Open Mon–Sat 10am–8pm · Sun 11am–7pm.">Aberto Seg–Sáb 10h–20h · Dom 11h–19h.</p>
+      <div class="date-input-wrap">
+        <label class="form-label" data-pt="Data" data-en="Date">Data</label>
+        <input type="date" id="dateInput" class="form-input">
+      </div>
+      <label class="form-label" data-pt="Horários disponíveis" data-en="Available times">Horários disponíveis</label>
+      <div class="slots-grid" id="slotsGrid" style="margin-top:0.6rem"></div>
+      <div class="nav-buttons">
+        <button class="btn-outline" data-back="1" data-pt="Voltar" data-en="Back">Voltar</button>
+        <button class="btn-primary" id="toStep3" disabled data-pt="Continuar" data-en="Continue">Continuar</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: DETAILS -->
+    <div class="step-panel" data-step="3">
+      <h2 class="step-title" data-pt="Os seus dados" data-en="Your details">Os seus dados</h2>
+      <p class="step-sub" data-pt="Usamos estes dados apenas para confirmar a sua reserva." data-en="We only use this information to confirm your booking.">Usamos estes dados apenas para confirmar a sua reserva.</p>
+      <div class="form-group">
+        <label class="form-label" data-pt="Nome Completo" data-en="Full Name">Nome Completo</label>
+        <input type="text" id="custName" class="form-input" data-pt="O seu nome" data-en="Your name">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" data-pt="Email" data-en="Email">Email</label>
+          <input type="email" id="custEmail" class="form-input" placeholder="email@exemplo.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-pt="Telefone" data-en="Phone">Telefone</label>
+          <input type="tel" id="custPhone" class="form-input" placeholder="9XX XXX XXX">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" data-pt="Notas (opcional)" data-en="Notes (optional)">Notas (opcional)</label>
+        <textarea id="custNotes" class="form-textarea" data-pt="Alguma preferência ou pedido especial?" data-en="Any preference or special request?"></textarea>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn-outline" data-back="2" data-pt="Voltar" data-en="Back">Voltar</button>
+        <button class="btn-primary" id="toStep4" data-pt="Continuar para Pagamento" data-en="Continue to Payment">Continuar para Pagamento</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: PAYMENT -->
+    <div class="step-panel" data-step="4">
+      <h2 class="step-title" data-pt="Pagamento" data-en="Payment">Pagamento</h2>
+      <p class="step-sub" data-pt="Pagamento seguro processado por Stripe. O valor total é cobrado para confirmar a reserva." data-en="Secure payment processed by Stripe. The full amount is charged to confirm your booking.">Pagamento seguro processado por Stripe. O valor total é cobrado para confirmar a reserva.</p>
+      <label class="form-label" data-pt="Dados do Cartão" data-en="Card Details" style="margin-bottom:0.5rem;display:block">Dados do Cartão</label>
+      <div id="cardElement"></div>
+      <p id="cardError" style="color:#B3261E;font-size:0.78rem;margin-top:0.6rem"></p>
+      <div class="nav-buttons">
+        <button class="btn-outline" data-back="3" data-pt="Voltar" data-en="Back">Voltar</button>
+        <button class="btn-primary" id="payBtn" data-pt="Pagar e Confirmar" data-en="Pay & Confirm">Pagar e Confirmar</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: CONFIRMATION -->
+    <div class="step-panel" data-step="5">
+      <div class="confirm-box">
+        <div class="confirm-box__icon">✦</div>
+        <h2 class="step-title" data-pt="Reserva confirmada!" data-en="Booking confirmed!">Reserva confirmada!</h2>
+        <p class="step-sub" data-pt="Enviámos os detalhes para o seu email." data-en="We've sent the details to your email.">Enviámos os detalhes para o seu email.</p>
+        <p class="confirm-box__ref" id="confirmRef">—</p>
+        <a href="../index.html" class="btn-primary" data-pt="Voltar ao Início" data-en="Back to Home">Voltar ao Início</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="booking-sidebar">
+    <p class="summary-title" data-pt="Resumo da Reserva" data-en="Booking Summary">Resumo da Reserva</p>
+    <div class="summary-row"><span class="summary-row__label" data-pt="Serviço" data-en="Service">Serviço</span><span class="summary-row__value" id="sumService">—</span></div>
+    <div class="summary-row"><span class="summary-row__label" data-pt="Duração" data-en="Duration">Duração</span><span class="summary-row__value" id="sumDuration">—</span></div>
+    <div class="summary-row"><span class="summary-row__label" data-pt="Data" data-en="Date">Data</span><span class="summary-row__value" id="sumDate">—</span></div>
+    <div class="summary-row"><span class="summary-row__label" data-pt="Hora" data-en="Time">Hora</span><span class="summary-row__value" id="sumTime">—</span></div>
+    <div class="summary-total"><span data-pt="Total" data-en="Total">Total</span><span id="sumTotal">€0</span></div>
+  </div>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+// ── SERVICES DATA ──
+const SERVICES = [
+  { cat: 'massagem', pt: 'Mix Massage', en: 'Mix Massage', durations: [[30,30],[45,40],[60,50]] },
+  { cat: 'massagem', pt: 'Massagem de Tecidos Profundos', en: 'Deep Tissue Massage', durations: [[30,30],[45,40],[60,45]] },
+  { cat: 'massagem', pt: 'Reflexologia Podal', en: 'Foot Reflexology Massage', durations: [[30,25],[45,40],[60,45]] },
+  { cat: 'massagem', pt: 'Massagem Tradicional Tailandesa', en: 'Traditional Thai Massage', durations: [[30,30],[45,40],[60,45]] },
+  { cat: 'massagem', pt: 'Massagem a Quatro Mãos', en: 'Four Hands Massage', durations: [[30,30],[45,45],[60,55]] },
+  { cat: 'massagem', pt: 'Pescoço, Cabeça e Ombros', en: 'Neck, Head and Shoulder Massage', durations: [[30,25],[45,35],[60,45]] },
+  { cat: 'massagem', pt: 'Massagem Capilar', en: 'Head Massage', durations: [[30,25],[45,35],[60,40]] },
+  { cat: 'massagem', pt: 'Massagem Shiatsu', en: 'Shiatsu Massage', durations: [[30,30],[45,40],[60,50]] },
+  { cat: 'massagem', pt: 'Massagem com Aromaterapia', en: 'Aroma Massage', durations: [[30,25],[45,30],[60,40]] },
+  { cat: 'massagem', pt: 'Massagem Desportiva', en: 'Sports Massage', durations: [[30,30],[45,40],[60,50]] },
+  { cat: 'massagem', pt: 'Massagem para Gravidez', en: 'Pregnancy Massage', durations: [[30,20],[45,30],[60,40]] },
+  { cat: 'massagem', pt: 'Massagem de Relaxamento', en: 'Relaxing Massage', durations: [[30,20],[45,30],[60,35]] },
+  { cat: 'massagem', pt: 'Drenagem Linfática', en: 'Lymph Drainage Massage', durations: [[30,25],[45,35],[60,40]] },
+  { cat: 'facial', pt: 'Limpeza de Pele Facial', en: 'Facial Cleansing', durations: [[null,20]] },
+  { cat: 'depilacao', pt: 'Sobrancelha com Linha', en: 'Eyebrow Threading', durations: [[null,5]] },
+  { cat: 'depilacao', pt: 'Sobrancelha com Cera', en: 'Eyebrow Wax', durations: [[null,5]] },
+  { cat: 'depilacao', pt: 'Buço', en: 'Upper Lip', durations: [[null,5]] },
+  { cat: 'depilacao', pt: 'Rosto Inteiro', en: 'Full Face', durations: [[null,20]] },
+  { cat: 'depilacao', pt: 'Depilação Perna Inteira', en: 'Full Leg Waxing', durations: [[null,15]] },
+  { cat: 'depilacao', pt: 'Meia Perna', en: 'Half Leg', durations: [[null,10]] },
+  { cat: 'depilacao', pt: 'Braços Inteiros', en: 'Full Arms', durations: [[null,15]] },
+  { cat: 'depilacao', pt: 'Meio Braço', en: 'Half Arm', durations: [[null,10]] },
+  { cat: 'depilacao', pt: 'Virilha Completa', en: 'Bikini Wax', durations: [[null,15]] },
+  { cat: 'depilacao', pt: 'Axilas', en: 'Underarms', durations: [[null,5]] },
+  { cat: 'pestanas', pt: 'Pestanas', en: 'Eyelashes', durations: [[null,25]] },
+  { cat: 'unhas', pt: 'Unhas de Gel', en: 'Gel Nail Extension', durations: [[null,25]] },
+  { cat: 'unhas', pt: 'Manutenção de Gel', en: 'Gel Infill / Maintenance', durations: [[null,20]] },
+  { cat: 'unhas', pt: 'Gelinho', en: 'Gel Polish', durations: [[null,10]] },
+  { cat: 'unhas', pt: 'Manicure (Simples)', en: 'Manicure (Simple)', durations: [[null,6]] },
+  { cat: 'unhas', pt: 'Pedicure (Simples)', en: 'Pedicure (Simple)', durations: [[null,15]] },
+  { cat: 'unhas', pt: 'Pedicure e Gelinho', en: 'Pedicure + Gel Polish', durations: [[null,20]] },
+];
+
+const CATEGORIES = [
+  { id: 'massagem', pt: 'Massagem', en: 'Massage' },
+  { id: 'facial', pt: 'Facial', en: 'Facial' },
+  { id: 'depilacao', pt: 'Depilação', en: 'Waxing' },
+  { id: 'pestanas', pt: 'Pestanas', en: 'Lashes' },
+  { id: 'unhas', pt: 'Unhas', en: 'Nails' },
+];
+
+const ALL_SLOTS = ['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30',
+  '15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30'];
+
+let state = { cat: 'massagem', service: null, duration: null, price: null, date: null, time: null, step: 1 };
+
+function lt(obj) { return currentLang === 'en' ? obj.en : obj.pt; }
+
+// ── RENDER STEPS BAR ──
+const STEP_LABELS = [
+  { pt: 'Serviço', en: 'Service' },
+  { pt: 'Data & Hora', en: 'Date & Time' },
+  { pt: 'Dados', en: 'Details' },
+  { pt: 'Pagamento', en: 'Payment' },
+];
+function renderStepsBar() {
+  const bar = document.getElementById('stepsBar');
+  bar.innerHTML = STEP_LABELS.map((s, i) => {
+    const n = i + 1;
+    const cls = n < state.step ? 'done' : (n === state.step ? 'active' : '');
+    const dot = `<div class="step-dot ${cls}"><div class="step-dot__circle">${n < state.step ? '✓' : n}</div><div class="step-dot__label">${lt(s)}</div></div>`;
+    const line = n < STEP_LABELS.length ? `<div class="step-line ${n < state.step ? 'done' : ''}"></div>` : '';
+    return dot + line;
+  }).join('');
+}
+
+function goToStep(n) {
+  state.step = n;
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.toggle('active', Number(p.dataset.step) === n));
+  renderStepsBar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('[data-back]').forEach(btn => {
+  btn.addEventListener('click', () => goToStep(Number(btn.dataset.back)));
+});
+
+// ── STEP 1: CATEGORY TABS + SERVICE LIST ──
+function renderCatTabs() {
+  const wrap = document.getElementById('catTabs');
+  wrap.innerHTML = CATEGORIES.map(c => `<div class="cat-tab ${c.id === state.cat ? 'active' : ''}" data-cat="${c.id}">${lt(c)}</div>`).join('');
+  wrap.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.addEventListener('click', () => { state.cat = tab.dataset.cat; renderCatTabs(); renderServiceList(); });
+  });
+}
+
+function renderServiceList() {
+  const wrap = document.getElementById('svcList');
+  const list = SERVICES.filter(s => s.cat === state.cat);
+  wrap.innerHTML = list.map((s, i) => {
+    const single = s.durations.length === 1 && s.durations[0][0] === null;
+    const priceLabel = single ? `€${s.durations[0][1]}` : `€${s.durations[0][1]} – €${s.durations[s.durations.length - 1][1]}`;
+    const durBtns = single ? '' : s.durations.map(([min, price]) => `<div class="dur-btn" data-min="${min}" data-price="${price}">${min}min · €${price}</div>`).join('');
+    return `
+      <div class="svc-pick-row" data-idx="${i}" data-single="${single}" data-price="${single ? s.durations[0][1] : ''}">
+        <div class="svc-pick-row__top">
+          <div class="svc-pick-row__radio"></div>
+          <div style="flex:1">
+            <div class="svc-pick-row__name">${lt(s)}</div>
+          </div>
+          <div class="svc-pick-row__price">${priceLabel}</div>
+        </div>
+        <div class="duration-row">${durBtns}</div>
+      </div>`;
+  }).join('');
+
+  wrap.querySelectorAll('.svc-pick-row').forEach(row => {
+    row.addEventListener('click', (e) => {
+      if (e.target.classList.contains('dur-btn')) return;
+      wrap.querySelectorAll('.svc-pick-row').forEach(r => r.classList.remove('selected'));
+      row.classList.add('selected');
+      const idx = Number(row.dataset.idx);
+      state.service = list[idx];
+      if (row.dataset.single === 'true') {
+        state.duration = null;
+        state.price = Number(row.dataset.price);
+        updateSummary();
+        document.getElementById('toStep2').disabled = false;
+      } else {
+        state.duration = null;
+        state.price = null;
+        document.getElementById('toStep2').disabled = true;
+      }
+    });
+    row.querySelectorAll('.dur-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        row.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state.duration = Number(btn.dataset.min);
+        state.price = Number(btn.dataset.price);
+        updateSummary();
+        document.getElementById('toStep2').disabled = false;
+      });
+    });
+  });
+}
+
+document.getElementById('toStep2').addEventListener('click', () => goToStep(2));
+
+// ── STEP 2: DATE & TIME ──
+const dateInput = document.getElementById('dateInput');
+const today = new Date();
+dateInput.min = today.toISOString().split('T')[0];
+dateInput.value = today.toISOString().split('T')[0];
+
+async function fetchTakenSlots(date) {
+  try {
+    const base = window.BACKEND_URL || '';
+    const res = await fetch(`${base}/api/slots?date=${date}&duration=${state.duration || 30}`);
+    if (!res.ok) throw new Error('no backend');
+    const data = await res.json();
+    return data.taken || [];
+  } catch (e) {
+    return []; // no backend configured yet — show all slots open
+  }
+}
+
+async function renderSlots() {
+  const grid = document.getElementById('slotsGrid');
+  const date = dateInput.value;
+  if (!date) { grid.innerHTML = ''; return; }
+  const taken = await fetchTakenSlots(date);
+  grid.innerHTML = ALL_SLOTS.map(slot => {
+    const isTaken = taken.includes(slot);
+    return `<div class="slot-btn ${isTaken ? 'taken' : ''}" data-slot="${slot}">${slot}</div>`;
+  }).join('');
+  grid.querySelectorAll('.slot-btn:not(.taken)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      grid.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.date = date;
+      state.time = btn.dataset.slot;
+      updateSummary();
+      document.getElementById('toStep3').disabled = false;
+    });
+  });
+}
+dateInput.addEventListener('change', () => { state.time = null; document.getElementById('toStep3').disabled = true; renderSlots(); });
+document.getElementById('toStep3').addEventListener('click', () => goToStep(3));
+
+// ── STEP 3: DETAILS ──
+document.getElementById('toStep4').addEventListener('click', () => {
+  if (!document.getElementById('custName').value || !document.getElementById('custEmail').value || !document.getElementById('custPhone').value) {
+    alert(currentLang === 'en' ? 'Please fill in all required fields.' : 'Por favor preencha todos os campos obrigatórios.');
+    return;
+  }
+  goToStep(4);
+  initStripe();
+});
+
+// ── STEP 4: PAYMENT (Stripe) ──
+let stripe, cardElement;
+function initStripe() {
+  if (stripe) return;
+  if (typeof Stripe === 'undefined' || !window.STRIPE_PUBLIC_KEY || window.STRIPE_PUBLIC_KEY.includes('REPLACE_ME')) {
+    document.getElementById('cardElement').innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted)">${currentLang === 'en' ? 'Stripe is not configured yet — payment step is a placeholder.' : 'O Stripe ainda não está configurado — este passo é um placeholder.'}</p>`;
+    return;
+  }
+  stripe = Stripe(window.STRIPE_PUBLIC_KEY);
+  const elements = stripe.elements();
+  cardElement = elements.create('card', { style: { base: { fontFamily: 'Jost, sans-serif', fontSize: '15px' } } });
+  cardElement.mount('#cardElement');
+}
+
+document.getElementById('payBtn').addEventListener('click', async () => {
+  const payBtn = document.getElementById('payBtn');
+  payBtn.disabled = true;
+  payBtn.textContent = currentLang === 'en' ? 'Processing…' : 'A processar…';
+  try {
+    const base = window.BACKEND_URL || '';
+    const piRes = await fetch(`${base}/api/create-payment-intent`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount: state.price, name: document.getElementById('custName').value,
+        email: document.getElementById('custEmail').value, service: lt(state.service),
+        duration: state.duration, date: state.date, time: state.time
+      })
+    });
+    let paymentIntentId = null;
+    if (piRes.ok && stripe && cardElement) {
+      const { clientSecret } = await piRes.json();
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: { card: cardElement, billing_details: { name: document.getElementById('custName').value, email: document.getElementById('custEmail').value } }
+      });
+      if (error) { document.getElementById('cardError').textContent = error.message; payBtn.disabled = false; payBtn.textContent = lt({pt:'Pagar e Confirmar',en:'Pay & Confirm'}); return; }
+      paymentIntentId = paymentIntent.id;
+    }
+    const bookRes = await fetch(`${base}/api/book`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        service: lt(state.service), duration: state.duration || 0, price: state.price,
+        date: state.date, time: state.time,
+        name: document.getElementById('custName').value, email: document.getElementById('custEmail').value,
+        phone: document.getElementById('custPhone').value, notes: document.getElementById('custNotes').value,
+        paymentIntentId
+      })
+    });
+    let ref = 'BBS-' + Math.floor(100000 + Math.random() * 900000);
+    if (bookRes.ok) { const data = await bookRes.json(); ref = data.ref || ref; }
+    document.getElementById('confirmRef').textContent = ref;
+    goToStep(5);
+  } catch (err) {
+    document.getElementById('cardError').textContent = currentLang === 'en' ? 'Something went wrong. Please try again or contact us directly.' : 'Ocorreu um erro. Tente novamente ou contacte-nos diretamente.';
+    payBtn.disabled = false;
+    payBtn.textContent = lt({pt:'Pagar e Confirmar',en:'Pay & Confirm'});
+  }
+});
+
+// ── SIDEBAR SUMMARY ──
+function updateSummary() {
+  document.getElementById('sumService').textContent = state.service ? lt(state.service) : '—';
+  document.getElementById('sumDuration').textContent = state.duration ? state.duration + 'min' : (state.service && state.service.durations[0][0] === null ? '—' : '—');
+  document.getElementById('sumDate').textContent = state.date || '—';
+  document.getElementById('sumTime').textContent = state.time || '—';
+  document.getElementById('sumTotal').textContent = state.price ? `€${state.price}` : '€0';
+}
+
+// ── INIT ──
+renderCatTabs();
+renderServiceList();
+renderSlots();
+renderStepsBar();
+</script>
+</body>
+</html>

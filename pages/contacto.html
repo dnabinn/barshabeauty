@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto — Barsha Beauty Salon</title>
+  <meta name="description" content="Contacte o Barsha Beauty Salon em Lisboa — telefone, WhatsApp, email e morada.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../js/config.js"></script>
+  <style>
+    .contact-section { background: var(--white); padding: 6rem 0; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .contact-info-item { display: flex; gap: 1rem; margin-bottom: 1.75rem; align-items: flex-start; }
+    .contact-info-icon { width: 42px; height: 42px; border-radius: var(--radius); background: var(--cream-dark); display: flex; align-items: center; justify-content: center; color: var(--gold); flex-shrink: 0; }
+    .contact-info-title { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.3rem; }
+    .contact-info-value { font-size: 0.95rem; color: var(--text-dark); }
+    #contactMsg { font-size: 0.85rem; margin-top: 1rem; }
+    @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav nav--solid" id="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__logo"><span class="nav__logo-icon">✦</span><span class="nav__logo-text">Barsha Beauty Salon</span></a>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="../index.html" class="nav__link" data-pt="Início" data-en="Home">Início</a></li>
+        <li><a href="servicos.html" class="nav__link" data-pt="Serviços" data-en="Services">Serviços</a></li>
+        <li><a href="sobre.html" class="nav__link" data-pt="Sobre" data-en="About">Sobre</a></li>
+        <li><a href="contacto.html" class="nav__link active" data-pt="Contacto" data-en="Contact">Contacto</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+        <a href="reservar.html" class="btn-book" data-pt="Reservar" data-en="Book Now">Reservar</a>
+        <button class="nav__burger" id="burger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="page-hero__inner">
+      <p class="section-eyebrow" data-pt="Fale Connosco" data-en="Get in Touch">Fale Connosco</p>
+      <h1 class="page-hero__title" data-pt="Contacto" data-en="Contact">Contacto</h1>
+      <p class="page-hero__sub" data-pt="Estamos disponíveis para esclarecer dúvidas ou ajudar a escolher o serviço ideal para si." data-en="We're available to answer questions or help you choose the right service.">Estamos disponíveis para esclarecer dúvidas ou ajudar a escolher o serviço ideal para si.</p>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="reveal">
+          <p class="section-eyebrow" data-pt="Informações" data-en="Information">Informações</p>
+          <h2 class="section-title" data-pt="Visite-nos ou<br>marque online" data-en="Visit us or<br>book online">Visite-nos ou<br>marque online</h2>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon">📍</div>
+            <div>
+              <div class="contact-info-title" data-pt="Morada" data-en="Address">Morada</div>
+              <div class="contact-info-value">Rua Arco do Marquês de Alegrete, loja 4 D<br>1100-034 Lisboa, Portugal</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">✆</div>
+            <div>
+              <div class="contact-info-title" data-pt="Telefone" data-en="Phone">Telefone</div>
+              <div class="contact-info-value"><a href="tel:+351920522330">+351 920 522 330</a></div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">✉</div>
+            <div>
+              <div class="contact-info-title" data-pt="Email" data-en="Email">Email</div>
+              <div class="contact-info-value"><a href="mailto:geral@barshabeautysalon.pt">geral@barshabeautysalon.pt</a></div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">◷</div>
+            <div>
+              <div class="contact-info-title" data-pt="Horário" data-en="Hours">Horário</div>
+              <div class="contact-info-value" data-pt="Seg–Sáb: 10h–20h<br>Dom: 11h–19h" data-en="Mon–Sat: 10am–8pm<br>Sun: 11am–7pm">Seg–Sáb: 10h–20h<br>Dom: 11h–19h</div>
+            </div>
+          </div>
+
+          <div style="margin-top:2rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+            <a href="https://wa.me/351920522330" target="_blank" class="btn-outline btn-sm" data-pt="WhatsApp" data-en="WhatsApp">WhatsApp</a>
+            <a href="https://maps.google.com/?q=Rua+Arco+do+Marquês+de+Alegrete+1100-034+Lisboa" target="_blank" class="btn-outline btn-sm" data-pt="Direções" data-en="Directions">Direções</a>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <p class="section-eyebrow" data-pt="Enviar Mensagem" data-en="Send a Message">Enviar Mensagem</p>
+          <h2 class="section-title" data-pt="Deixe-nos<br>a sua mensagem" data-en="Leave us<br>a message">Deixe-nos<br>a sua mensagem</h2>
+          <form id="contactForm">
+            <div class="form-group">
+              <label class="form-label" data-pt="Nome" data-en="Name">Nome</label>
+              <input type="text" id="cName" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-pt="Email" data-en="Email">Email</label>
+              <input type="email" id="cEmail" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-pt="Assunto" data-en="Subject">Assunto</label>
+              <input type="text" id="cSubject" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-pt="Mensagem" data-en="Message">Mensagem</label>
+              <textarea id="cMessage" class="form-textarea" required></textarea>
+            </div>
+            <button type="submit" class="btn-primary btn-block" data-pt="Enviar Mensagem" data-en="Send Message">Enviar Mensagem</button>
+            <p id="contactMsg"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <div class="footer__logo"><span class="nav__logo-icon">✦</span><span>Barsha Beauty Salon</span></div>
+        <p class="footer__tagline" data-pt="Beleza & Bem-Estar em Lisboa" data-en="Beauty & Wellness in Lisbon">Beleza & Bem-Estar em Lisboa</p>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__col-title" data-pt="Navegação" data-en="Navigation">Navegação</h4>
+        <ul class="footer__links">
+          <li><a href="../index.html" data-pt="Início" data-en="Home">Início</a></li>
+          <li><a href="servicos.html" data-pt="Serviços" data-en="Services">Serviços</a></li>
+          <li><a href="sobre.html" data-pt="Sobre Nós" data-en="About Us">Sobre Nós</a></li>
+          <li><a href="contacto.html" data-pt="Contacto" data-en="Contact">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__col-title" data-pt="Visite-nos" data-en="Visit Us">Visite-nos</h4>
+        <p class="footer__addr">Rua Arco do Marquês de Alegrete, loja 4 D<br>1100-034 Lisboa</p>
+        <a href="tel:+351920522330" class="footer__phone">+351 920 522 330</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p data-pt="© 2026 Barsha Beauty Salon. Todos os direitos reservados." data-en="© 2026 Barsha Beauty Salon. All rights reserved.">© 2026 Barsha Beauty Salon. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('contactMsg');
+      msg.textContent = currentLang === 'en' ? 'Sending…' : 'A enviar…';
+      msg.style.color = 'var(--text-muted)';
+      try {
+        const base = window.BACKEND_URL || '';
+        const res = await fetch(`${base}/api/contact`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: document.getElementById('cName').value,
+            email: document.getElementById('cEmail').value,
+            subject: document.getElementById('cSubject').value,
+            message: document.getElementById('cMessage').value
+          })
+        });
+        if (!res.ok) throw new Error();
+        msg.textContent = currentLang === 'en' ? 'Message sent! We will get back to you soon.' : 'Mensagem enviada! Responderemos brevemente.';
+        msg.style.color = '#2E7D32';
+        document.getElementById('contactForm').reset();
+      } catch (err) {
+        msg.textContent = currentLang === 'en' ? 'Could not send right now — please WhatsApp or call us instead.' : 'Não foi possível enviar agora — contacte-nos por WhatsApp ou telefone.';
+        msg.style.color = '#B3261E';
+      }
+    });
+  </script>
+</body>
+</html>

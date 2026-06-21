@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serviços — Barsha Beauty Salon</title>
+  <meta name="description" content="Massagens, estética facial, depilação, unhas e pestanas — veja todos os serviços e preços do Barsha Beauty Salon.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav nav--solid" id="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__logo">
+        <span class="nav__logo-icon">✦</span>
+        <span class="nav__logo-text">Barsha Beauty Salon</span>
+      </a>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="../index.html" class="nav__link" data-pt="Início" data-en="Home">Início</a></li>
+        <li><a href="servicos.html" class="nav__link active" data-pt="Serviços" data-en="Services">Serviços</a></li>
+        <li><a href="sobre.html" class="nav__link" data-pt="Sobre" data-en="About">Sobre</a></li>
+        <li><a href="contacto.html" class="nav__link" data-pt="Contacto" data-en="Contact">Contacto</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+        <a href="reservar.html" class="btn-book" data-pt="Reservar" data-en="Book Now">Reservar</a>
+        <button class="nav__burger" id="burger" onclick="toggleMenu()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero__inner">
+      <p class="section-eyebrow" data-pt="Os Nossos Serviços" data-en="Our Services">Os Nossos Serviços</p>
+      <h1 class="page-hero__title" data-pt="Serviços & Preços" data-en="Services & Pricing">Serviços & Preços</h1>
+      <p class="page-hero__sub" data-pt="Todos os preços incluem IVA. Reserve online ou contacte-nos para mais informações." data-en="All prices include VAT. Book online or contact us for more information.">Todos os preços incluem IVA. Reserve online ou contacte-nos para mais informações.</p>
+    </div>
+  </section>
+
+  <!-- MASSAGE -->
+  <section class="svc-category">
+    <div class="container">
+      <div class="svc-category__header reveal">
+        <p class="section-eyebrow" data-pt="Massagem" data-en="Massage">Massagem</p>
+        <h2 class="section-title" data-pt="13 técnicas, um só objetivo:<br>o seu bem-estar" data-en="13 techniques, one goal:<br>your well-being">13 técnicas, um só objetivo:<br>o seu bem-estar</h2>
+      </div>
+      <div class="svc-grid">
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/mix-massage.png" alt="Mix Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Mix Massage" data-en="Mix Massage">Mix Massage</div>
+            <div class="svc-grid-card__sub" data-pt="4 técnicas diferentes" data-en="4 different techniques">4 técnicas diferentes</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€30</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€40</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€50</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/deep-tissue-massage.webp" alt="Deep Tissue Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Massagem de Tecidos Profundos" data-en="Deep Tissue Massage">Massagem de Tecidos Profundos</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€30</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€40</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€45</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/foot-reflexology-massage.png" alt="Foot Reflexology Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Reflexologia Podal" data-en="Foot Reflexology Massage">Reflexologia Podal</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€25</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€40</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€45</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/traditional-thai-massage.webp" alt="Traditional Thai Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Massagem Tradicional Tailandesa" data-en="Traditional Thai Massage">Massagem Tradicional Tailandesa</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€30</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€40</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€45</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/four-hands-massage.webp" alt="Four Hands Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Massagem a Quatro Mãos" data-en="Four Hands Massage">Massagem a Quatro Mãos</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€30</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€45</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€55</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/neck-head-shoulder-massage.jpg" alt="Neck, Head and Shoulder Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Massagem Pescoço, Cabeça e Ombros" data-en="Neck, Head and Shoulder Massage">Massagem Pescoço, Cabeça e Ombros</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€25</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€35</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€45</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/head-massage.webp" alt="Head Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Massagem Capilar" data-en="Head Massage">Massagem Capilar</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€25</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€35</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€40</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/shiatu-massage.webp" alt="Shiatu Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Massagem Shiatsu" data-en="Shiatsu Massage">Massagem Shiatsu</div>
+            <div class="svc-grid-card__sub" data-pt="Pressão seca + pontos de pressão" data-en="Dry + press point technique">Pressão seca + pontos de pressão</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€30</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€40</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€50</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/aroma-massage.jpg" alt="Aroma Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Massagem com Aromaterapia" data-en="Aroma Massage">Massagem com Aromaterapia</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€25</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€30</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€40</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/sports-massage.jpeg" alt="Sports Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Massagem Desportiva" data-en="Sports Massage">Massagem Desportiva</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€30</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€40</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€50</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/pregnancy-massage.jpg" alt="Pregnancy Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Massagem para Gravidez" data-en="Pregnancy Massage">Massagem para Gravidez</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€20</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€30</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€40</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/relaxing-massage.jpg" alt="Relaxing Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Massagem de Relaxamento" data-en="Relaxing Massage">Massagem de Relaxamento</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€20</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€30</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€35</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/massage/lymph-drainage-massage.jpg" alt="Lymph Drainage Massage" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Drenagem Linfática" data-en="Lymph Drainage Massage">Drenagem Linfática</div>
+            <div class="svc-grid-card__prices">
+              <div class="svc-grid-card__price-pill"><span class="dur">30min</span><span class="amt">€25</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">45min</span><span class="amt">€35</span></div>
+              <div class="svc-grid-card__price-pill"><span class="dur">60min</span><span class="amt">€40</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FACIAL -->
+  <section class="svc-category">
+    <div class="container">
+      <div class="svc-category__header reveal">
+        <p class="section-eyebrow" data-pt="Estética Facial" data-en="Facial Treatments">Estética Facial</p>
+        <h2 class="section-title" data-pt="Limpeza de pele profunda" data-en="Deep facial cleansing">Limpeza de pele profunda</h2>
+      </div>
+      <div class="svc-grid">
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/facial.jpg" alt="Facial" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Limpeza de Pele Facial" data-en="Facial Cleansing">Limpeza de Pele Facial</div>
+            <div class="svc-grid-card__sub" data-pt="Consulte a equipa para o tratamento mais adequado" data-en="Ask our team for the most suitable treatment">Consulte a equipa para o tratamento mais adequado</div>
+            <div class="svc-grid-card__price-single" data-pt="€20 – €35" data-en="€20 – €35">€20 – €35</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EYEBROWS & WAXING -->
+  <section class="svc-category">
+    <div class="container">
+      <div class="svc-category__header reveal">
+        <p class="section-eyebrow" data-pt="Sobrancelhas & Depilação" data-en="Brows & Waxing">Sobrancelhas & Depilação</p>
+        <h2 class="section-title" data-pt="Threading, cera e<br>depilação completa" data-en="Threading, waxing and<br>full hair removal">Threading, cera e<br>depilação completa</h2>
+      </div>
+      <div class="svc-grid">
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/eyebrow-threading.webp" alt="Eyebrow Threading" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Sobrancelha com Linha" data-en="Eyebrow Threading">Sobrancelha com Linha</div>
+            <div class="svc-grid-card__price-single">€5</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/eyebrow-wax.jpg" alt="Eyebrow Wax" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Sobrancelha com Cera" data-en="Eyebrow Wax">Sobrancelha com Cera</div>
+            <div class="svc-grid-card__price-single">€5</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/upper-lip-wax.webp" alt="Upper Lip Wax" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Buço" data-en="Upper Lip">Buço</div>
+            <div class="svc-grid-card__price-single">€5</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/full-face-threading.webp" alt="Full Face Threading" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Rosto Inteiro" data-en="Full Face">Rosto Inteiro</div>
+            <div class="svc-grid-card__price-single">€20</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/full-leg-wax.jpeg" alt="Full Leg Waxing" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Depilação Perna Inteira" data-en="Full Leg Waxing">Depilação Perna Inteira</div>
+            <div class="svc-grid-card__price-single">€15</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/half-leg-wax.webp" alt="Half Leg Waxing" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Meia Perna" data-en="Half Leg">Meia Perna</div>
+            <div class="svc-grid-card__price-single">€10</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/full-arm-wax.webp" alt="Full Arm Waxing" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Braços Inteiros" data-en="Full Arms">Braços Inteiros</div>
+            <div class="svc-grid-card__price-single">€15</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/half-arm-wax.webp" alt="Half Arm Waxing" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Meio Braço" data-en="Half Arm">Meio Braço</div>
+            <div class="svc-grid-card__price-single">€10</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/bikini-wax.jpg" alt="Bikini Wax" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Virilha Completa" data-en="Bikini Wax">Virilha Completa</div>
+            <div class="svc-grid-card__price-single">€15</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/underarm-wax.webp" alt="Underarm Waxing" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Axilas" data-en="Underarms">Axilas</div>
+            <div class="svc-grid-card__price-single">€5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LASHES -->
+  <section class="svc-category">
+    <div class="container">
+      <div class="svc-category__header reveal">
+        <p class="section-eyebrow" data-pt="Pestanas" data-en="Lashes">Pestanas</p>
+        <h2 class="section-title" data-pt="Extensão de pestanas" data-en="Lash extensions">Extensão de pestanas</h2>
+      </div>
+      <div class="svc-grid">
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/extra-service-3.jpg" alt="Eyelashes" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Pestanas" data-en="Eyelashes">Pestanas</div>
+            <div class="svc-grid-card__price-single">€25</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAILS -->
+  <section class="svc-category">
+    <div class="container">
+      <div class="svc-category__header reveal">
+        <p class="section-eyebrow" data-pt="Unhas" data-en="Nails">Unhas</p>
+        <h2 class="section-title" data-pt="Manicure, pedicure<br>& unhas de gel" data-en="Manicure, pedicure<br>& gel nails">Manicure, pedicure<br>& unhas de gel</h2>
+      </div>
+      <div class="svc-grid">
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/gel-nails.jpg" alt="Gel Nails" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Unhas de Gel" data-en="Gel Nail Extension">Unhas de Gel</div>
+            <div class="svc-grid-card__price-single">€25</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/gel-polish.webp" alt="Gel Maintenance" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Manutenção de Gel" data-en="Gel Infill / Maintenance">Manutenção de Gel</div>
+            <div class="svc-grid-card__price-single">€20</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/gel-polish.webp" alt="Gelinho" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Gelinho" data-en="Gel Polish">Gelinho</div>
+            <div class="svc-grid-card__price-single">€10</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/manicure.jpg" alt="Manicure" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Manicure (Simples)" data-en="Manicure (Simple)">Manicure (Simples)</div>
+            <div class="svc-grid-card__price-single">€6</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/pedicure.webp" alt="Pedicure" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Pedicure (Simples)" data-en="Pedicure (Simple)">Pedicure (Simples)</div>
+            <div class="svc-grid-card__price-single">€15</div>
+          </div>
+        </div>
+        <div class="svc-grid-card reveal">
+          <div class="svc-grid-card__img"><img src="../images/services/pedicure-2.jpg" alt="Pedicure with Gel Polish" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Pedicure e Gelinho" data-en="Pedicure + Gel Polish">Pedicure e Gelinho</div>
+            <div class="svc-grid-card__price-single">€20</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HAIR -->
+  <section class="svc-category">
+    <div class="container">
+      <div class="svc-category__header reveal">
+        <p class="section-eyebrow" data-pt="Cabelo" data-en="Hair">Cabelo</p>
+        <h2 class="section-title" data-pt="Trabalho africano,<br>unissexo" data-en="African work,<br>unisex">Trabalho africano,<br>unissexo</h2>
+        <p style="font-size:0.9rem;color:var(--text-muted);font-weight:300;margin-top:0.5rem" data-pt="Trança brasileira · Tissagem · Lavar e secar — preço definido por consulta no WhatsApp." data-en="Brazilian braid · Weaving · Wash & dry — pricing by WhatsApp consultation.">Trança brasileira · Tissagem · Lavar e secar — preço definido por consulta no WhatsApp.</p>
+      </div>
+      <div class="svc-grid">
+        <a class="svc-grid-card reveal" href="https://wa.me/351920522330?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20o%20pre%C3%A7o%20para%20trabalho%20de%20cabelo%20africano%20(tran%C3%A7as%2Ftissagem)." target="_blank">
+          <div class="svc-grid-card__img"><img src="../images/services/extra-service-1.jpg" alt="Hair styling" loading="lazy"></div>
+          <div class="svc-grid-card__body">
+            <div class="svc-grid-card__name" data-pt="Todo o Tipo de Trabalho Africano" data-en="All Kinds of African Work">Todo o Tipo de Trabalho Africano</div>
+            <div class="svc-grid-card__sub" data-pt="Trança brasileira, tissagem, lavar e secar" data-en="Brazilian braid, weaving, hair wash & dry">Trança brasileira, tissagem, lavar e secar</div>
+            <div class="svc-grid-card__whatsapp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              <span data-pt="Consultar no WhatsApp" data-en="Ask on WhatsApp">Consultar no WhatsApp</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="cta-banner__inner reveal">
+      <p class="section-eyebrow" data-pt="Pronta para reservar?" data-en="Ready to book?">Pronta para reservar?</p>
+      <h2 class="cta-banner__title" data-pt="Escolha o seu serviço<br>e marque já." data-en="Choose your service<br>and book now.">Escolha o seu serviço<br>e marque já.</h2>
+      <div class="cta-banner__btns">
+        <a href="reservar.html" class="btn-gold" data-pt="Reservar Sessão" data-en="Book a Session">Reservar Sessão</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <div class="footer__logo"><span class="nav__logo-icon">✦</span><span>Barsha Beauty Salon</span></div>
+        <p class="footer__tagline" data-pt="Beleza & Bem-Estar em Lisboa" data-en="Beauty & Wellness in Lisbon">Beleza & Bem-Estar em Lisboa</p>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__col-title" data-pt="Navegação" data-en="Navigation">Navegação</h4>
+        <ul class="footer__links">
+          <li><a href="../index.html" data-pt="Início" data-en="Home">Início</a></li>
+          <li><a href="servicos.html" data-pt="Serviços" data-en="Services">Serviços</a></li>
+          <li><a href="sobre.html" data-pt="Sobre Nós" data-en="About Us">Sobre Nós</a></li>
+          <li><a href="contacto.html" data-pt="Contacto" data-en="Contact">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__col-title" data-pt="Visite-nos" data-en="Visit Us">Visite-nos</h4>
+        <p class="footer__addr">Rua Arco do Marquês de Alegrete, loja 4 D<br>1100-034 Lisboa</p>
+        <a href="tel:+351920522330" class="footer__phone">+351 920 522 330</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p data-pt="© 2026 Barsha Beauty Salon. Todos os direitos reservados. Todos os preços incluem IVA." data-en="© 2026 Barsha Beauty Salon. All rights reserved. All prices include VAT.">© 2026 Barsha Beauty Salon. Todos os direitos reservados. Todos os preços incluem IVA.</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
