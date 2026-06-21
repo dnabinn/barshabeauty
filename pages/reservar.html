@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reservar — Barsha Beauty Salon</title>
 <meta name="description" content="Reserve a sua sessão online no Barsha Beauty Salon — massagens, estética, unhas e pestanas.">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../icons/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/main.css">
@@ -75,10 +79,14 @@
   .slots-empty { font-size: 0.85rem; color: var(--text-muted); padding: 1rem 0; }
 
   /* Payment */
-  .pay-methods { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; }
-  .pay-method { flex: 1; padding: 1rem; border: 1.5px solid var(--border); border-radius: var(--radius); text-align: center; font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: var(--transition); }
+  .pay-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .pay-method { padding: 1rem; border: 1.5px solid var(--border); border-radius: var(--radius); text-align: center; cursor: pointer; transition: var(--transition); background: var(--white); }
   .pay-method.selected { border-color: var(--gold); background: var(--gold-pale); }
-  #cardElement { padding: 0.95rem 1rem; border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--white); }
+  .pay-method__title { font-size: 0.85rem; font-weight: 500; color: var(--text-dark); margin-bottom: 0.2rem; }
+  .pay-method__sub { font-size: 0.68rem; color: var(--text-muted); line-height: 1.5; }
+  #paymentElement { padding: 0.95rem 1rem; border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--white); }
+  .whatsapp-panel { text-align: center; padding: 2rem 1rem; border: 1.5px dashed var(--border); border-radius: var(--radius-lg); background: var(--cream); }
+  .whatsapp-panel p { font-size: 0.85rem; color: var(--text-mid); margin-bottom: 1.25rem; line-height: 1.7; }
 
   .nav-buttons { display: flex; justify-content: space-between; margin-top: 2.5rem; }
 
@@ -105,7 +113,7 @@
 
 <nav class="nav nav--solid" id="nav">
   <div class="nav__inner">
-    <a href="../index.html" class="nav__logo"><span class="nav__logo-icon">✦</span><span class="nav__logo-text">Barsha Beauty Salon</span></a>
+    <a href="../index.html" class="nav__logo"><img src="../images/logo.png" alt="Barsha Beauty Salon" class="nav__logo-img"></a>
     <ul class="nav__links" id="navLinks">
       <li><a href="../index.html" class="nav__link" data-pt="Início" data-en="Home">Início</a></li>
       <li><a href="servicos.html" class="nav__link" data-pt="Serviços" data-en="Services">Serviços</a></li>
@@ -183,10 +191,31 @@
     <!-- STEP 4: PAYMENT -->
     <div class="step-panel" data-step="4">
       <h2 class="step-title" data-pt="Pagamento" data-en="Payment">Pagamento</h2>
-      <p class="step-sub" data-pt="Pagamento seguro processado por Stripe. O valor total é cobrado para confirmar a reserva." data-en="Secure payment processed by Stripe. The full amount is charged to confirm your booking.">Pagamento seguro processado por Stripe. O valor total é cobrado para confirmar a reserva.</p>
-      <label class="form-label" data-pt="Dados do Cartão" data-en="Card Details" style="margin-bottom:0.5rem;display:block">Dados do Cartão</label>
-      <div id="cardElement"></div>
-      <p id="cardError" style="color:#B3261E;font-size:0.78rem;margin-top:0.6rem"></p>
+      <p class="step-sub" data-pt="Escolha como prefere pagar." data-en="Choose how you'd like to pay.">Escolha como prefere pagar.</p>
+
+      <div class="pay-methods">
+        <div class="pay-method selected" data-method="online">
+          <div class="pay-method__title" data-pt="Pagar Online" data-en="Pay Online">Pagar Online</div>
+          <div class="pay-method__sub" data-pt="Cartão · MB WAY · Revolut Pay" data-en="Card · MB WAY · Revolut Pay">Cartão · MB WAY · Revolut Pay</div>
+        </div>
+        <div class="pay-method" data-method="whatsapp">
+          <div class="pay-method__title" data-pt="Pagar no Salão" data-en="Pay at the Salon">Pagar no Salão</div>
+          <div class="pay-method__sub" data-pt="Reservar via WhatsApp" data-en="Reserve via WhatsApp">Reservar via WhatsApp</div>
+        </div>
+      </div>
+
+      <!-- ONLINE PAYMENT PANEL -->
+      <div id="onlinePanel">
+        <label class="form-label" data-pt="Dados de Pagamento" data-en="Payment Details" style="margin-bottom:0.5rem;display:block">Dados de Pagamento</label>
+        <div id="paymentElement"></div>
+        <p id="cardError" style="color:#B3261E;font-size:0.78rem;margin-top:0.6rem"></p>
+      </div>
+
+      <!-- WHATSAPP PANEL -->
+      <div id="whatsappPanel" class="whatsapp-panel" style="display:none">
+        <p data-pt="Reservamos o seu horário e abrimos o WhatsApp com os detalhes já preenchidos. O pagamento é feito diretamente no salão." data-en="We'll reserve your slot and open WhatsApp with the details already filled in. Payment is made directly at the salon.">Reservamos o seu horário e abrimos o WhatsApp com os detalhes já preenchidos. O pagamento é feito diretamente no salão.</p>
+      </div>
+
       <div class="nav-buttons">
         <button class="btn-outline" data-back="3" data-pt="Voltar" data-en="Back">Voltar</button>
         <button class="btn-primary" id="payBtn" data-pt="Pagar e Confirmar" data-en="Pay & Confirm">Pagar e Confirmar</button>
@@ -197,8 +226,8 @@
     <div class="step-panel" data-step="5">
       <div class="confirm-box">
         <div class="confirm-box__icon">✦</div>
-        <h2 class="step-title" data-pt="Reserva confirmada!" data-en="Booking confirmed!">Reserva confirmada!</h2>
-        <p class="step-sub" data-pt="Enviámos os detalhes para o seu email." data-en="We've sent the details to your email.">Enviámos os detalhes para o seu email.</p>
+        <h2 class="step-title" id="confirmTitle" data-pt="Reserva confirmada!" data-en="Booking confirmed!">Reserva confirmada!</h2>
+        <p class="step-sub" id="confirmSub" data-pt="Enviámos os detalhes para o seu email." data-en="We've sent the details to your email.">Enviámos os detalhes para o seu email.</p>
         <p class="confirm-box__ref" id="confirmRef">—</p>
         <a href="../index.html" class="btn-primary" data-pt="Voltar ao Início" data-en="Back to Home">Voltar ao Início</a>
       </div>
@@ -407,66 +436,170 @@ document.getElementById('toStep4').addEventListener('click', () => {
     return;
   }
   goToStep(4);
-  initStripe();
+  selectPayMethod('online');
 });
 
-// ── STEP 4: PAYMENT (Stripe) ──
-let stripe, cardElement;
-function initStripe() {
-  if (stripe) return;
+// ── STEP 4: PAYMENT ──
+const SALON_WHATSAPP = '351920522330';
+let payMethod = 'online';
+let stripe, elements;
+
+function getCustomer() {
+  return {
+    name: document.getElementById('custName').value,
+    email: document.getElementById('custEmail').value,
+    phone: document.getElementById('custPhone').value,
+    notes: document.getElementById('custNotes').value
+  };
+}
+
+document.querySelectorAll('.pay-method').forEach(tile => {
+  tile.addEventListener('click', () => selectPayMethod(tile.dataset.method));
+});
+
+function selectPayMethod(method) {
+  payMethod = method;
+  document.querySelectorAll('.pay-method').forEach(t => t.classList.toggle('selected', t.dataset.method === method));
+  document.getElementById('onlinePanel').style.display = method === 'online' ? 'block' : 'none';
+  document.getElementById('whatsappPanel').style.display = method === 'whatsapp' ? 'block' : 'none';
+  const payBtn = document.getElementById('payBtn');
+  payBtn.textContent = method === 'whatsapp'
+    ? lt({ pt: 'Continuar no WhatsApp', en: 'Continue on WhatsApp' })
+    : lt({ pt: 'Pagar e Confirmar', en: 'Pay & Confirm' });
+  if (method === 'online') initStripeElements();
+}
+
+async function initStripeElements() {
+  if (elements) return; // already mounted
   if (typeof Stripe === 'undefined' || !window.STRIPE_PUBLIC_KEY || window.STRIPE_PUBLIC_KEY.includes('REPLACE_ME')) {
-    document.getElementById('cardElement').innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted)">${currentLang === 'en' ? 'Stripe is not configured yet — payment step is a placeholder.' : 'O Stripe ainda não está configurado — este passo é um placeholder.'}</p>`;
+    document.getElementById('paymentElement').innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted)">${currentLang === 'en' ? 'Stripe is not configured yet — payment step is a placeholder.' : 'O Stripe ainda não está configurado — este passo é um placeholder.'}</p>`;
     return;
   }
   stripe = Stripe(window.STRIPE_PUBLIC_KEY);
-  const elements = stripe.elements();
-  cardElement = elements.create('card', { style: { base: { fontFamily: 'Jost, sans-serif', fontSize: '15px' } } });
-  cardElement.mount('#cardElement');
+  const cust = getCustomer();
+  const base = window.BACKEND_URL || '';
+  try {
+    const piRes = await fetch(`${base}/api/create-payment-intent`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: state.price, name: cust.name, email: cust.email, service: lt(state.service), duration: state.duration, date: state.date, time: state.time })
+    });
+    if (!piRes.ok) throw new Error('Could not start payment');
+    const { clientSecret } = await piRes.json();
+    window.barshaClientSecret = clientSecret;
+    elements = stripe.elements({ clientSecret, appearance: { variables: { fontFamily: 'Jost, sans-serif' } } });
+    elements.create('payment').mount('#paymentElement');
+  } catch (err) {
+    document.getElementById('cardError').textContent = currentLang === 'en' ? 'Could not load payment options. Please try again.' : 'Não foi possível carregar as opções de pagamento. Tente novamente.';
+  }
+}
+
+function buildWhatsappMessage() {
+  const cust = getCustomer();
+  const lines = currentLang === 'en'
+    ? [`Hi! I'd like to confirm a booking at Barsha Beauty Salon:`, `Service: ${lt(state.service)}${state.duration ? ' (' + state.duration + 'min)' : ''}`, `Date: ${state.date}`, `Time: ${state.time}`, `Name: ${cust.name}`, `Total: €${state.price} (paid at salon)`]
+    : [`Olá! Gostaria de confirmar uma reserva no Barsha Beauty Salon:`, `Serviço: ${lt(state.service)}${state.duration ? ' (' + state.duration + 'min)' : ''}`, `Data: ${state.date}`, `Hora: ${state.time}`, `Nome: ${cust.name}`, `Total: €${state.price} (a pagar no salão)`];
+  return lines.join('\n');
 }
 
 document.getElementById('payBtn').addEventListener('click', async () => {
   const payBtn = document.getElementById('payBtn');
+  const cust = getCustomer();
+  const base = window.BACKEND_URL || '';
+
+  if (payMethod === 'whatsapp') {
+    payBtn.disabled = true;
+    payBtn.textContent = currentLang === 'en' ? 'Reserving…' : 'A reservar…';
+    try {
+      const bookRes = await fetch(`${base}/api/book`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service: lt(state.service), duration: state.duration || 0, price: state.price,
+          date: state.date, time: state.time, name: cust.name, email: cust.email, phone: cust.phone, notes: cust.notes,
+          payMethod: 'whatsapp', status: 'pending'
+        })
+      });
+      let ref = 'BBS-' + Math.floor(100000 + Math.random() * 900000);
+      if (bookRes.ok) { const data = await bookRes.json(); ref = data.ref || ref; }
+      window.open(`https://wa.me/${SALON_WHATSAPP}?text=${encodeURIComponent(buildWhatsappMessage() + '\nRef: ' + ref)}`, '_blank');
+      showConfirmation(ref, 'pending');
+    } catch (err) {
+      document.getElementById('cardError').textContent = currentLang === 'en' ? 'Something went wrong. Please try again or contact us directly.' : 'Ocorreu um erro. Tente novamente ou contacte-nos diretamente.';
+      payBtn.disabled = false;
+      payBtn.textContent = lt({ pt: 'Continuar no WhatsApp', en: 'Continue on WhatsApp' });
+    }
+    return;
+  }
+
+  // Online payment (card / MB WAY / Revolut Pay) via Stripe Payment Element
+  if (!stripe || !elements) return;
   payBtn.disabled = true;
   payBtn.textContent = currentLang === 'en' ? 'Processing…' : 'A processar…';
+  sessionStorage.setItem('barsha-pending-booking', JSON.stringify({
+    service: lt(state.service), duration: state.duration || 0, price: state.price,
+    date: state.date, time: state.time, name: cust.name, email: cust.email, phone: cust.phone, notes: cust.notes
+  }));
+  const { error, paymentIntent } = await stripe.confirmPayment({
+    elements,
+    confirmParams: {
+      return_url: window.location.origin + window.location.pathname,
+      payment_method_data: { billing_details: { name: cust.name, email: cust.email, phone: cust.phone } }
+    },
+    redirect: 'if_required'
+  });
+  if (error) {
+    document.getElementById('cardError').textContent = error.message;
+    payBtn.disabled = false;
+    payBtn.textContent = lt({ pt: 'Pagar e Confirmar', en: 'Pay & Confirm' });
+    return;
+  }
+  // Card payments usually resolve here without a redirect
+  await finalizeOnlineBooking(paymentIntent.id, paymentIntent.status);
+});
+
+async function finalizeOnlineBooking(paymentIntentId, intentStatus) {
+  const pending = JSON.parse(sessionStorage.getItem('barsha-pending-booking') || 'null');
+  if (!pending) return;
+  const base = window.BACKEND_URL || '';
+  // 'succeeded' = confirmed immediately (card). 'processing' = MB WAY app approval pending.
+  const bookingStatus = intentStatus === 'succeeded' ? 'confirmed' : 'pending';
   try {
-    const base = window.BACKEND_URL || '';
-    const piRes = await fetch(`${base}/api/create-payment-intent`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        amount: state.price, name: document.getElementById('custName').value,
-        email: document.getElementById('custEmail').value, service: lt(state.service),
-        duration: state.duration, date: state.date, time: state.time
-      })
-    });
-    let paymentIntentId = null;
-    if (piRes.ok && stripe && cardElement) {
-      const { clientSecret } = await piRes.json();
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: { card: cardElement, billing_details: { name: document.getElementById('custName').value, email: document.getElementById('custEmail').value } }
-      });
-      if (error) { document.getElementById('cardError').textContent = error.message; payBtn.disabled = false; payBtn.textContent = lt({pt:'Pagar e Confirmar',en:'Pay & Confirm'}); return; }
-      paymentIntentId = paymentIntent.id;
-    }
     const bookRes = await fetch(`${base}/api/book`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        service: lt(state.service), duration: state.duration || 0, price: state.price,
-        date: state.date, time: state.time,
-        name: document.getElementById('custName').value, email: document.getElementById('custEmail').value,
-        phone: document.getElementById('custPhone').value, notes: document.getElementById('custNotes').value,
-        paymentIntentId
-      })
+      body: JSON.stringify({ ...pending, paymentIntentId, payMethod: 'card', status: bookingStatus })
     });
     let ref = 'BBS-' + Math.floor(100000 + Math.random() * 900000);
     if (bookRes.ok) { const data = await bookRes.json(); ref = data.ref || ref; }
-    document.getElementById('confirmRef').textContent = ref;
-    goToStep(5);
+    sessionStorage.removeItem('barsha-pending-booking');
+    showConfirmation(ref, bookingStatus);
   } catch (err) {
-    document.getElementById('cardError').textContent = currentLang === 'en' ? 'Something went wrong. Please try again or contact us directly.' : 'Ocorreu um erro. Tente novamente ou contacte-nos diretamente.';
-    payBtn.disabled = false;
-    payBtn.textContent = lt({pt:'Pagar e Confirmar',en:'Pay & Confirm'});
+    document.getElementById('cardError').textContent = currentLang === 'en' ? 'Payment succeeded but booking could not be saved — please contact us with your payment reference.' : 'O pagamento foi efetuado mas não foi possível guardar a reserva — contacte-nos com a referência do pagamento.';
   }
-});
+}
+
+function showConfirmation(ref, status) {
+  document.getElementById('confirmRef').textContent = ref;
+  if (status === 'pending') {
+    document.getElementById('confirmTitle').textContent = lt({ pt: 'Reserva recebida!', en: 'Booking received!' });
+    document.getElementById('confirmSub').textContent = lt({ pt: 'O seu horário foi reservado. Finalize os detalhes connosco no WhatsApp.', en: 'Your slot has been reserved. Finish the details with us on WhatsApp.' });
+  } else {
+    document.getElementById('confirmTitle').textContent = lt({ pt: 'Reserva confirmada!', en: 'Booking confirmed!' });
+    document.getElementById('confirmSub').textContent = lt({ pt: 'Enviámos os detalhes para o seu email.', en: "We've sent the details to your email." });
+  }
+  goToStep(5);
+}
+
+// ── HANDLE RETURN FROM REDIRECT-BASED PAYMENT (MB WAY / Revolut Pay) ──
+(async function handleRedirectReturn() {
+  const params = new URLSearchParams(window.location.search);
+  const clientSecret = params.get('payment_intent_client_secret');
+  if (!clientSecret || typeof Stripe === 'undefined' || !window.STRIPE_PUBLIC_KEY || window.STRIPE_PUBLIC_KEY.includes('REPLACE_ME')) return;
+  stripe = Stripe(window.STRIPE_PUBLIC_KEY);
+  const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+  history.replaceState(null, '', window.location.pathname);
+  if (paymentIntent && (paymentIntent.status === 'succeeded' || paymentIntent.status === 'processing')) {
+    await finalizeOnlineBooking(paymentIntent.id, paymentIntent.status);
+  }
+})();
 
 // ── SIDEBAR SUMMARY ──
 function updateSummary() {

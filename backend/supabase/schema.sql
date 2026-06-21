@@ -16,7 +16,7 @@ create table if not exists bookings (
   notes            text,
   payment_intent_id text,
   pay_method       text        not null default 'card'
-                   check (pay_method in ('card', 'whatsapp', 'cash', 'unknown')),
+                   check (pay_method in ('card', 'mb_way', 'revolut_pay', 'whatsapp', 'cash', 'unknown')),
   status           text        not null default 'confirmed'
                    check (status in ('pending', 'confirmed', 'cancelled')),
   created_at       timestamptz not null default now()

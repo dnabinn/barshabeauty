@@ -217,6 +217,10 @@ ul { list-style: none; }
 
 .nav__logo-icon { font-size: 1rem; }
 
+.nav__logo-img { height: 34px; width: auto; display: block; }
+
+.footer__logo-img { height: 30px; width: auto; display: block; }
+
 .nav__links {
   display: flex;
   align-items: center;

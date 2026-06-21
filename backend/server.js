@@ -61,7 +61,10 @@ app.post('/api/create-payment-intent', async (req, res) => {
       currency: 'eur',
       description: `${SALON_NAME} — ${name || 'Guest'} — ${service || ''} ${duration ? duration + 'min' : ''} — ${date || ''} ${time || ''}`,
       receipt_email: email || undefined,
-      automatic_payment_methods: { enabled: true },
+      // Explicit list so card / MB WAY / Revolut Pay all show up regardless of
+      // Stripe Dashboard defaults. MB WAY and Revolut Pay must be activated for
+      // this Stripe account (Dashboard → Settings → Payment methods) before they'll work.
+      payment_method_types: ['card', 'mb_way', 'revolut_pay'],
       metadata: {
         customer_name: name || '',
         customer_email: email || '',
@@ -79,11 +82,16 @@ app.post('/api/create-payment-intent', async (req, res) => {
 
 // ── POST /api/book ──
 app.post('/api/book', async (req, res) => {
-  const { service, duration, price, date, time, name, email, phone, notes, paymentIntentId } = req.body;
+  const { service, duration, price, date, time, name, email, phone, notes, paymentIntentId, payMethod, status } = req.body;
 
   const required = { service, price, date, time, name, email, phone };
   const missing = Object.entries(required).filter(([, v]) => !v).map(([k]) => k);
   if (missing.length) return res.status(400).json({ error: `Missing fields: ${missing.join(', ')}` });
+
+  const VALID_PAY_METHODS = ['card', 'mb_way', 'revolut_pay', 'whatsapp', 'cash', 'unknown'];
+  const finalPayMethod = VALID_PAY_METHODS.includes(payMethod) ? payMethod : (paymentIntentId ? 'card' : 'unknown');
+  // Online payments confirmed by Stripe → 'confirmed'. WhatsApp / pay-at-salon → 'pending' until staff follow up.
+  const finalStatus = ['confirmed', 'pending', 'cancelled'].includes(status) ? status : (paymentIntentId ? 'confirmed' : 'pending');
 
   const ref = 'BBS-' + Math.floor(100000 + Math.random() * 900000);
 
@@ -91,7 +99,7 @@ app.post('/api/book', async (req, res) => {
     const { error: insertErr } = await supabase.from('bookings').insert({
       ref, service, duration: duration || 0, price, date, time, name, email, phone,
       notes: notes || null, payment_intent_id: paymentIntentId || null,
-      pay_method: paymentIntentId ? 'card' : 'unknown', status: 'confirmed'
+      pay_method: finalPayMethod, status: finalStatus
     });
     if (insertErr) throw insertErr;
 
@@ -100,9 +108,11 @@ app.post('/api/book', async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 
-  await sendConfirmationEmail({ ref, name, email, service, duration, date, time, price });
+  if (finalStatus === 'confirmed') {
+    await sendConfirmationEmail({ ref, name, email, service, duration, date, time, price });
+  }
 
-  res.json({ success: true, ref });
+  res.json({ success: true, ref, status: finalStatus });
 });
 
 // ── EMAIL CONFIRMATION (Resend) ──
