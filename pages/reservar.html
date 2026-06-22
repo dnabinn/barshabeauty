@@ -28,10 +28,17 @@
   .booking-main { padding: 3rem 3rem 4rem; border-right: 1px solid var(--border); min-height: calc(100vh - 80px); }
   .booking-sidebar { padding: 3rem 2rem; position: sticky; top: 80px; height: calc(100vh - 80px); overflow-y: auto; background: var(--white); }
 
-  .steps-bar { display: flex; align-items: center; gap: 0; margin-bottom: 3rem; }
-  .step-dot { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+  .steps-bar { display: flex; align-items: center; gap: 0; margin-bottom: 3rem; max-width: 100%; }
+  .step-dot { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; min-width: 0; }
   .step-dot__circle { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 500; color: var(--text-muted); background: var(--white); transition: var(--transition); flex-shrink: 0; }
   .step-dot__label { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); transition: var(--transition); white-space: nowrap; }
+
+  @media (max-width: 480px) {
+    .steps-bar { margin-bottom: 2rem; }
+    .step-dot__label { display: none; }
+    .step-dot__circle { width: 24px; height: 24px; }
+    .step-line { margin: 0 0.4rem; min-width: 10px; }
+  }
   .step-dot.active .step-dot__circle { background: var(--black); border-color: var(--black); color: var(--gold); }
   .step-dot.active .step-dot__label { color: var(--text-dark); font-weight: 500; }
   .step-dot.done .step-dot__circle { background: var(--gold); border-color: var(--gold); color: var(--black); }

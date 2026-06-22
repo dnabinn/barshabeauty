@@ -633,6 +633,8 @@ ul { list-style: none; }
   position: relative;
 }
 
+.svc-card__img { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; margin-bottom: 1.25rem; border: 1px solid var(--border); }
+
 .svc-card:hover { background: var(--black); }
 .svc-card:hover .svc-card__num { color: var(--gold); opacity: 0.3; }
 .svc-card:hover .svc-card__title { color: var(--gold-light); }
