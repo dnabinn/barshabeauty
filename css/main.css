@@ -532,6 +532,8 @@ ul { list-style: none; }
   border-bottom: 1px solid var(--border);
 }
 
+.about-strip__stats .stat { min-width: 0; flex: 1 1 auto; }
+
 .stat__num {
   display: block;
   font-family: var(--font-display);
@@ -878,6 +880,7 @@ ul { list-style: none; }
   .btn-book { display: none; }
   .about-strip__inner { grid-template-columns: 1fr; }
   .about-strip__visual { display: none; }
+  .about-strip__stats { gap: 1.25rem; }
   .services-prev__grid { grid-template-columns: 1fr; }
   .reviews__grid { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
